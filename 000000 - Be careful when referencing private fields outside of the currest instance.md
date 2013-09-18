@@ -30,3 +30,21 @@ class Bar implements Foo {
 ```
 
 Now the top-level method `sumFoo` and `operator==` in `Foo` will fail with runtime exceptions.
+
+## Suggestion
+
+```dart
+// Library A
+
+int sumFoo(Foo a, Foo b) => a._value + b._value;
+
+class Foo {
+  int _value;
+
+  int get value => _value;
+
+  // Don't assume private field in 'other'
+  // Okay to use private fields from the current instance
+  bool operator==(other) => other is Foo && other.value == _value;
+}
+```
